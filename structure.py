@@ -1,5 +1,7 @@
-import sys
+# Структура проекта
 
+
+import sys
 from PyQt5.QtGui import QPainter, QColor, QPen
 from PyQt5.QtWidgets import QWidget, QApplication
 from PyQt5.QtCore import Qt
