@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>761</width>
-    <height>1024</height>
+    <width>764</width>
+    <height>1129</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,8 +25,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>741</width>
-         <height>960</height>
+         <width>744</width>
+         <height>1065</height>
         </rect>
        </property>
        <widget class="QWidget" name="horizontalLayoutWidget">
@@ -35,7 +35,7 @@
           <x>0</x>
           <y>0</y>
           <width>741</width>
-          <height>951</height>
+          <height>1024</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -123,7 +123,7 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_6"/>
+              <widget class="QLineEdit" name="name"/>
              </item>
              <item>
               <widget class="QLineEdit" name="lineEdit_3">
@@ -143,6 +143,9 @@ p, li { white-space: pre-wrap; }
                   <property name="text">
                    <string>Прямоугольный</string>
                   </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">type_cor</string>
+                  </attribute>
                  </widget>
                 </item>
                 <item>
@@ -150,6 +153,9 @@ p, li { white-space: pre-wrap; }
                   <property name="text">
                    <string>Тупоугольный</string>
                   </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">type_cor</string>
+                  </attribute>
                  </widget>
                 </item>
                 <item>
@@ -157,6 +163,9 @@ p, li { white-space: pre-wrap; }
                   <property name="text">
                    <string>Остроугольный</string>
                   </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">type_cor</string>
+                  </attribute>
                  </widget>
                 </item>
                 <item>
@@ -164,6 +173,9 @@ p, li { white-space: pre-wrap; }
                   <property name="text">
                    <string>Любой</string>
                   </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">type_cor</string>
+                  </attribute>
                  </widget>
                 </item>
                </layout>
@@ -187,6 +199,9 @@ p, li { white-space: pre-wrap; }
                   <property name="text">
                    <string>Разносторонний</string>
                   </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">type_seg</string>
+                  </attribute>
                  </widget>
                 </item>
                 <item>
@@ -194,6 +209,9 @@ p, li { white-space: pre-wrap; }
                   <property name="text">
                    <string>Равносторонний</string>
                   </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">type_seg</string>
+                  </attribute>
                  </widget>
                 </item>
                 <item>
@@ -201,6 +219,9 @@ p, li { white-space: pre-wrap; }
                   <property name="text">
                    <string>Равнобедренный</string>
                   </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">type_seg</string>
+                  </attribute>
                  </widget>
                 </item>
                 <item>
@@ -208,6 +229,9 @@ p, li { white-space: pre-wrap; }
                   <property name="text">
                    <string>Любой</string>
                   </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">type_seg</string>
+                  </attribute>
                  </widget>
                 </item>
                </layout>
@@ -245,7 +269,11 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="tcorners"/>
+              <widget class="QLineEdit" name="tcorners">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QGroupBox" name="horizontalGroupBox_2">
@@ -275,7 +303,7 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QTextEdit" name="textEdit_5">
+              <widget class="QTextEdit" name="inf_t">
                <property name="readOnly">
                 <bool>true</bool>
                </property>
@@ -294,6 +322,19 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
+       <widget class="QPushButton" name="OK_event">
+        <property name="geometry">
+         <rect>
+          <x>620</x>
+          <y>1030</y>
+          <width>89</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -304,7 +345,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>761</width>
+     <width>764</width>
      <height>22</height>
     </rect>
    </property>
@@ -313,4 +354,8 @@ p, li { white-space: pre-wrap; }
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="type_cor"/>
+  <buttongroup name="type_seg"/>
+ </buttongroups>
 </ui>

@@ -7,6 +7,7 @@ from PyQt5 import uic
 from PyQt5.QtCore import QPoint
 
 SCREEN_SIZE = [500, 500]
+TRIANGLES = []
 
 
 class Example(QMainWindow):
@@ -17,7 +18,9 @@ class Example(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        pass
+        self.triangle = []
+        self.pbv.clicked.connect(self.t_event)
+        self.name_t = self.name_t
 
     def paintEvent(self, event):
         # Создаем объект QPainter для рисования
@@ -33,6 +36,15 @@ class Example(QMainWindow):
 
     def information(self):
         pass
+
+    def t_event(self):
+        self.add_param(self.name_t)
+        self.type_seg.buttonClicked.connect(self.add_param)
+        self.type_cor.buttonClicked.connect(self.add_param)
+        self.inf_t.setText(*self.triangle)
+
+    def add_param(self, state):
+        self.triangle.append(state.text())
 
 
 class Point(QPoint):
