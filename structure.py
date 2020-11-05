@@ -160,6 +160,17 @@ class Triangle:
         self.c1, self.c2, self.c3 = c1, c2, c3
 
 
+class Letter():
+    def __init__(self, name, x, y):
+        self.name = name
+        self.x, self.y = x, y
+
+    def draw(self, qp):
+        pen = QPen(Qt.black, 2, Qt.DotLine)
+        qp.setPen(pen)
+        qp.drawText(self.x, self.y, self.name)
+
+
 def xs(x):
     return x + SCREEN_SIZE[0] // 2
 
