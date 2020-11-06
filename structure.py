@@ -1,3 +1,4 @@
+# структура проекта
 import sys
 
 from PyQt5.QtGui import QPainter, QColor, QPen
