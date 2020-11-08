@@ -1,6 +1,6 @@
 # структура проекта
 import sys
-
+# import numpy as np
 from PyQt5.QtGui import QPainter, QColor, QPen
 from PyQt5.QtWidgets import QWidget, QApplication
 from PyQt5.QtCore import Qt
@@ -17,9 +17,9 @@ class Example(QWidget):
     def initUI(self):
         self.setGeometry(300, 300, 500, 500)
         self.setWindowTitle('Рисование')
-        self.po1 = Point('A', 150, 100)
-        self.po2 = Point('B', 200, 50)
-        self.r = Ray('a', self.po1, self.po2)
+        self.po1 = Point('A', 10, 100)
+        self.po2 = Point('B', 10, 300)
+        self.r = Triangle()
 
     # Метод срабатывает, когда виджету надо
     # перерисовать свое содержимое,
@@ -37,7 +37,7 @@ class Example(QWidget):
         self.r.draw(qp)
 
 
-class Point():
+class Point:
     def __init__(self, name, x, y):
         self.name = name
         self.x, self.y = x, y
@@ -78,6 +78,9 @@ class Point():
         if self.x >= other.x and self.y >= other.y:
             return True
         return False
+
+    def __str__(self):
+        return self.name
 
 
 class Straight:
@@ -129,9 +132,9 @@ class Ray:
         dx, dy = abs(self.p1.x - self.p2.x) // 2, abs(self.p1.y - self.p2.y) // 2
         x1, y1, x2, y2 = self.p1.x, self.p1.y, self.p2.x, self.p2.y
         if x1 >= x2 and y1 >= y2:
-            qp.drawLine(x1, y1, x2 + dx, y2 + dy)
-        elif x1 <= x2 and y1 <= y2:
             qp.drawLine(x1, y1, x2 - dx, y2 - dy)
+        elif x1 <= x2 and y1 <= y2:
+            qp.drawLine(x1, y1, x2 + dx, y2 + dy)
         elif x1 <= x2 and y1 >= y2:
             qp.drawLine(x1, y1, x2 + dx, y2 - dy)
         elif x1 >= x2 and y1 <= y2:
@@ -144,22 +147,45 @@ class Corner:
         self.name = name
         self.p1 = p1
         self.p2 = p2
-        self.size = size
+        self.s = size
 
     def draw(self, qp):
-        Ray(self.name[1:], self.p1, self.p2).draw(qp)
-        Ray(self.name[1::-1], self.p1, Point(self.name[2], )).draw(qp)
+        m = [self.p2.x * math.cos(self.s) - self.p2.y * math.sin(self.s),
+             self.p2.x * math.sin(self.s) + self.p2.y * math.cos(self.s)]
+        p3 = Point(self.name[2], m[0], m[1])
+        Ray(self.name[1::-1], self.p2, self.p1).draw(qp)
+        Ray(self.name[1:], self.p2, p3).draw(qp)
 
 
 class Triangle:
-    def __init__(self, p1='A', p2='B', p3='C',
-                 s1=1, s2=1, s3=1, c1=60, c2=60, c3=60):
+    def __init__(self, p1=Point('A', 50, 50), p2=Point('B', 100, 100), p3=Point('C', 50, 150),
+                 s1=1, s2=1, s3=1, c1=45, c2=90, c3=45):
         self.p1, self.p2, self.p3 = p1, p2, p3
         self.s1, self.s2, self.s3 = s1, s2, s3
         self.c1, self.c2, self.c3 = c1, c2, c3
 
+    def draw(self, qp):
+        LineSegment(str(self.p1) + str(self.p2), self.p1, self.p2).draw(qp)
+        LineSegment(str(self.p2) + str(self.p3), self.p2, self.p3).draw(qp)
+        LineSegment(str(self.p3) + str(self.p1), self.p3, self.p1).draw(qp)
 
-class Letter():
+
+class Bisector(LineSegment):
+    def __init__(self):
+        super().__init__()
+
+
+class Height(LineSegment):
+    def __init__(self):
+        super().__init__()
+
+
+class Median(LineSegment):
+    def __init__(self):
+        super().__init__()
+
+
+class Letter:
     def __init__(self, name, x, y):
         self.name = name
         self.x, self.y = x, y
@@ -170,12 +196,32 @@ class Letter():
         qp.drawText(self.x, self.y, self.name)
 
 
+# function for getting the x coordinate on the screen
 def xs(x):
     return x + SCREEN_SIZE[0] // 2
 
 
+# function for getting the y coordinate on the screen
 def ys(y):
     return SCREEN_SIZE[1] // 2 - y
+
+
+# matrix and vector multiplication function
+def product_of_matrix_by_vector(a, b):
+    total = a.dot(b)
+    return total
+
+
+# the generating function of the vector
+def creating_vector(x, y):
+    return np.array([[x], [y]])
+
+
+# function for creating a rotation matrix
+def rotation_matrix(alpha):
+    a = math.radians(alpha)
+    matrix = np.array([[math.cos(a), -math.sin(a)], [math.sin(a), math.cos(a)]])
+    return matrix
 
 
 if __name__ == '__main__':

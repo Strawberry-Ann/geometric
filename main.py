@@ -5,22 +5,21 @@ from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow
 from PyQt5 import uic
 from PyQt5.QtCore import QPoint
+# import numpy as np
 
 SCREEN_SIZE = [500, 500]
-TRIANGLES = []
+INFORMATION = []
 
 
 class Example(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('untitled.ui', self)
+        uic.loadUi('test.ui', self)
         # Загружаем дизайн
         self.initUI()
 
     def initUI(self):
-        self.triangle = []
-        self.pbv.clicked.connect(self.t_event)
-        self.name_t = self.name_t
+        pass
 
     def paintEvent(self, event):
         # Создаем объект QPainter для рисования
