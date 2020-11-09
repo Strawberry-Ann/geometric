@@ -961,7 +961,7 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu Condensed'; font-size:11pt; font-weight:400; font-style:italic;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; color:#000000;&quot;&gt;3. Введите через пробел названия отрезков присутствующих в задаче и их длины, если они даны, в формате &amp;quot;название отрезка(две буквы)-длина отрезка&amp;quot;, если длина не дана введите &amp;quot;название отрезка(две буквы)-&amp;quot; (максимум 15 отрезков):&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; color:#000000;&quot;&gt;3. Введите через пробел названия отрезков присутствующих в задаче и их длины, если они даны, в формате &amp;quot;название отрезка(две буквы)-длина отрезка&amp;quot;, если длина не дана введите &amp;quot;название отрезка(две буквы)-&amp;quot; (максимум 20 отрезков):&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QTextEdit" name="textEdit_2">

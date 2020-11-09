@@ -17,9 +17,9 @@ class Example(QWidget):
     def initUI(self):
         self.setGeometry(300, 300, 500, 500)
         self.setWindowTitle('Рисование')
-        self.po1 = Point('A', 10, 100)
+        self.po1 = Point('A', 10, 10)
         self.po2 = Point('B', 10, 300)
-        self.r = Triangle()
+        self.r = Corner('ABC', self.po1, self.po2, 30)
 
     # Метод срабатывает, когда виджету надо
     # перерисовать свое содержимое,
@@ -47,7 +47,7 @@ class Point:
         qp.setPen(pen)
         color = QColor(255, 255, 255)
         qp.setBrush(color)
-        qp.drawEllipse(self.x - 2, self.y - 2, 4, 4)
+        qp.drawEllipse(int(self.x - 2), int(self.y - 2), 4, 4)
 
     def __lt__(self, other):
         if self.x < other.x and self.y < other.y:
@@ -114,7 +114,7 @@ class LineSegment:
     def draw(self, qp):
         pen = QPen(Qt.black, 2, Qt.SolidLine)
         qp.setPen(pen)
-        qp.drawLine(self.p1.x, self.p1.y, self.p2.x, self.p2.y)
+        qp.drawLine(int(self.p1.x), int(self.p1.y), int(self.p2.x), int(self.p2.y))
         pen.setStyle(Qt.DotLine)
         qp.setPen(pen)
         self.p1.draw(qp)
@@ -129,8 +129,8 @@ class Ray:
     def draw(self, qp):
         pen = QPen(Qt.black, 2, Qt.DotLine)
         qp.setPen(pen)
-        dx, dy = abs(self.p1.x - self.p2.x) // 2, abs(self.p1.y - self.p2.y) // 2
-        x1, y1, x2, y2 = self.p1.x, self.p1.y, self.p2.x, self.p2.y
+        dx, dy = int(abs(self.p1.x - self.p2.x) // 2), int(abs(self.p1.y - self.p2.y) // 2)
+        x1, y1, x2, y2 = int(self.p1.x), int(self.p1.y), int(self.p2.x), int(self.p2.y)
         if x1 >= x2 and y1 >= y2:
             qp.drawLine(x1, y1, x2 - dx, y2 - dy)
         elif x1 <= x2 and y1 <= y2:
@@ -150,11 +150,13 @@ class Corner:
         self.s = size
 
     def draw(self, qp):
-        m = [self.p2.x * math.cos(self.s) - self.p2.y * math.sin(self.s),
-             self.p2.x * math.sin(self.s) + self.p2.y * math.cos(self.s)]
+        # plotting the angle of a given value using the math library
+        line = math.sqrt((self.p2.x - self.p1.x) ** 2 + (self.p2.y - self.p1.y) ** 2)
+        m = [self.p2.x + line * math.cos(self.s * math.pi / 180),
+             line * math.sin(self.s * math.pi / 180) + self.p2.y]
         p3 = Point(self.name[2], m[0], m[1])
-        Ray(self.name[1::-1], self.p2, self.p1).draw(qp)
-        Ray(self.name[1:], self.p2, p3).draw(qp)
+        Ray(self.name[1::-1], self.p1, self.p2).draw(qp)
+        Ray(self.name[1:], self.p1, p3).draw(qp)
 
 
 class Triangle:
@@ -170,19 +172,38 @@ class Triangle:
         LineSegment(str(self.p3) + str(self.p1), self.p3, self.p1).draw(qp)
 
 
-class Bisector(LineSegment):
-    def __init__(self):
-        super().__init__()
+class Bisector:
+    def __init__(self, name, tr):
+        self.name, self.tr = name, tr
+
+    def get_lenght(self):
+        pass
+
+    def draw(self):
+        pass
 
 
-class Height(LineSegment):
-    def __init__(self):
-        super().__init__()
+class Height:
+    def __init__(self, name, tr):
+        self.name, self.tr = name, tr
+
+    def get_lenght(self):
+        pass
+
+    def draw(self):
+        pass
 
 
-class Median(LineSegment):
-    def __init__(self):
-        super().__init__()
+class Median:
+    def __init__(self, name, tr):
+        self.name, self.tr = name, tr
+
+    def get_lenght(self):
+        pass
+
+    def draw(self):
+        pass
+
 
 
 class Letter:
