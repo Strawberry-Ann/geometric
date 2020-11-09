@@ -171,6 +171,8 @@ class Triangle:
         LineSegment(str(self.p2) + str(self.p3), self.p2, self.p3).draw(qp)
         LineSegment(str(self.p3) + str(self.p1), self.p3, self.p1).draw(qp)
 
+    def draw_bisector(self, ):
+
 
 class Bisector:
     def __init__(self, name, tr):

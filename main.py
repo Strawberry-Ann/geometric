@@ -21,7 +21,7 @@ class Example(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.pb_OK.clicked.connect()
+        pass
 
     def paintEvent(self, event):
         # Создаем объект QPainter для рисования
@@ -33,17 +33,16 @@ class Example(QMainWindow):
         qp.end()
 
     def draw_flag(self, qp):
-        self.corner.draw(qp)
+        pass
 
     def information(self):
         pass
 
     def t_event(self):
-
+        pass
 
     def add_param(self, state):
-        self.triangle.append(state.text())
-
+        pass
 
 
 def xs(self,x):
