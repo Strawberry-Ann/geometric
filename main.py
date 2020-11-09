@@ -8,7 +8,10 @@ from PyQt5.QtCore import QPoint
 # import numpy as np
 
 SCREEN_SIZE = [500, 500]
-TYPE = [(1, 2, 3), (1, 2, 3, 4), ()]
+# a list of tuples, each representing the sequence of opening files
+TYPE = [(1, 2, 3), (1, 2, 3, 4), (1, 2, 3, 4, 5), (1, 2, 3, 4, 5), (1, 2, 3, 4),
+        (1, 2, 3, 4, 43), (1, 2, 3, 4, 41), (1, 2, 3, 4, 41), (1, 2, 3, 4, 41, 42),
+        (1, 2, 3, 4,), ()]
 INFORMATION = []
 POINTS = {}
 
