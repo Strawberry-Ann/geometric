@@ -10,8 +10,22 @@ from PyQt5.QtCore import QPoint
 SCREEN_SIZE = [500, 500]
 # a list of tuples, each representing the sequence of opening files
 TYPE = [(1, 2, 3), (1, 2, 3, 4), (1, 2, 3, 4, 5), (1, 2, 3, 4, 5), (1, 2, 3, 4),
-        (1, 2, 3, 4, 43), (1, 2, 3, 4, 41), (1, 2, 3, 4, 41), (1, 2, 3, 4, 41, 42),
+        (1, 2, 3, 4, 7), (1, 2, 3, 4, 41), (1, 2, 3, 4, 41), (1, 2, 3, 4, 41, 42),
         (1, 2, 3, 4,), ()]
+FUNCTIONS = {'1': [lambda x: x.split()],
+             '2': [lambda x: x.split()],
+             '3': [lambda x: list(map(lambda y: (y.split('-')[0], y.split('-')[1]), x.split())),
+                   lambda x: list(map(lambda y: (y.split('=')[0].split(':'), y.split('=')[1].split(':')), x.split()))],
+             '4': [lambda x: list(map(lambda y: (y.split('-')[0], y.split('-')[1]), x.split())),
+                   lambda x: list(map(lambda y: (y.split('=')[0].split(':'), y.split('=')[1].split(':')), x.split()))],
+             '5': [lambda name: name, lambda heights: heights.split(), lambda medians: medians.split(),
+                   lambda simedians: simedians.split(), lambda cevians: cevians],
+             '6': [lambda text: list(map(lambda string: string.split(), text.split('\n')))],
+             '7': [lambda name1: name1, lambda value1: value1, lambda name2: name2, lambda value2: value2,
+                   lambda string: list(map(lambda x: (x.split('=')[1], x.split('=')[0].split('*')[0],
+                                                      x.split('=')[0].split('*')[1]), string.split()))],
+             '8': [lambda string: list(map(lambda x: (x.split('=')[1], x.split('=')[0].split('*')[0],
+                                                      x.split('=')[0].split('*')[1]), string.split()))]}
 INFORMATION = []
 POINTS = {}
 

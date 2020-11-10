@@ -17,9 +17,9 @@ class Example(QWidget):
     def initUI(self):
         self.setGeometry(300, 300, 500, 500)
         self.setWindowTitle('Рисование')
-        self.po1 = Point('A', 10, 10)
-        self.po2 = Point('B', 10, 300)
-        self.r = Corner('ABC', self.po1, self.po2, 30)
+        self.po1 = Point('A', 100, 100)
+        self.po2 = Point('B', 40, 190)
+        self.r1 = Corner('ABC', self.po1, self.po2, 360)
 
     # Метод срабатывает, когда виджету надо
     # перерисовать свое содержимое,
@@ -34,7 +34,7 @@ class Example(QWidget):
         qp.end()
 
     def draw_flag(self, qp):
-        self.r.draw(qp)
+        self.r1.draw(qp)
 
 
 class Point:
@@ -152,8 +152,19 @@ class Corner:
     def draw(self, qp):
         # plotting the angle of a given value using the math library
         line = math.sqrt((self.p2.x - self.p1.x) ** 2 + (self.p2.y - self.p1.y) ** 2)
-        m = [self.p2.x + line * math.cos(self.s * math.pi / 180),
-             line * math.sin(self.s * math.pi / 180) + self.p2.y]
+        if self.p1.x <= self.p2.x and self.p1.y < self.p2.y:
+            m = [self.p1.x + line * math.sin(self.s * math.pi / 180 + math.asin((self.p2.x - self.p1.x) / line)),
+                 line * math.cos(self.s * math.pi / 180 + math.asin((self.p2.x - self.p1.x) / line)) + self.p1.y]
+        elif self.p1.y <= self.p2.y and self.p1.x > self.p2.x:
+            m = [self.p1.x - line * math.cos(self.s * math.pi / 180 + math.asin((self.p2.y - self.p1.y) / line)),
+                 line * math.sin(self.s * math.pi / 180 + math.asin((self.p2.y - self.p1.y) / line)) + self.p1.y]
+        elif self.p1.x >= self.p2.x and self.p1.y > self.p2.y:
+            m = [self.p1.x - line * math.sin(self.s * math.pi / 180 + math.asin((self.p2.x - self.p1.x) / line)),
+                 -line * math.cos(self.s * math.pi / 180 + math.asin((self.p1.x - self.p2.x) / line)) + self.p1.y]
+        elif self.p1.y >= self.p2.y and self.p1.x < self.p2.x:
+            m = [self.p1.x + line * math.cos(self.s * math.pi / 180 + math.asin((self.p1.y - self.p2.y) / line)),
+                 -line * math.sin(self.s * math.pi / 180 + math.asin((self.p1.y - self.p2.y) / line)) + self.p1.y]
+
         p3 = Point(self.name[2], m[0], m[1])
         Ray(self.name[1::-1], self.p1, self.p2).draw(qp)
         Ray(self.name[1:], self.p1, p3).draw(qp)
@@ -171,7 +182,8 @@ class Triangle:
         LineSegment(str(self.p2) + str(self.p3), self.p2, self.p3).draw(qp)
         LineSegment(str(self.p3) + str(self.p1), self.p3, self.p1).draw(qp)
 
-    def draw_bisector(self, ):
+    def draw_bisector(self):
+        pass
 
 
 class Bisector:
@@ -205,7 +217,6 @@ class Median:
 
     def draw(self):
         pass
-
 
 
 class Letter:
