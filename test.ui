@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>710</width>
-    <height>538</height>
+    <height>522</height>
    </rect>
   </property>
   <property name="palette">
@@ -459,9 +459,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>80</y>
      <width>691</width>
-     <height>101</height>
+     <height>391</height>
     </rect>
    </property>
    <property name="readOnly">
@@ -472,184 +472,15 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt;Выберите из возможных вариантов построения картинки тот, который соответствует вашей задаче(в каждой задаче максимум 10 точек, максимум 12 прямых, максимум 20 отрезков и максимум 10 лучей)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-style:italic;&quot;&gt;Здравствуйте, вас приветствует программа построения геометрических черетежей многоугольников, которая помогает точнее нарисовать чертёж для доказательства различных первостепенных геометрических фактов. Надеемся, она поможет вам определиться с различными случаями расположения точек, ведь это иногда неплохо выносит мозг. Тем более, если вы решили подружиться с геометрией, то эта программа будет полезна вам на начальном этапе её изучения. Пока что программа способна только на построение различных моделей треугольника и многого, что с ним связано,  В будущих версиях программы будут добавлены новые способности и возможности. Ждите обовлений!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
-  </widget>
-  <widget class="QGroupBox" name="verticalGroupBox">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>110</y>
-     <width>691</width>
-     <height>371</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QRadioButton" name="rb1">
-      <property name="font">
-       <font>
-        <family>FreeSerif</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <italic>true</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Прямая и различные точки на ней, возможно определяемые соотношениями</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="rb2">
-      <property name="font">
-       <font>
-        <family>FreeSerif</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <italic>true</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Несколько пересекающихся прямых(максимум &amp;4)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="rb3">
-      <property name="font">
-       <font>
-        <family>FreeSerif</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <italic>true</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Пара параллельных прямых и различные секущие(но не больше &amp;3)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="rb4">
-      <property name="font">
-       <font>
-        <family>FreeSerif</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <italic>true</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Несколько групп параллельных прямых(но не больше 4, а в каждой группе не больше &amp;2 прямых)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="rb5">
-      <property name="font">
-       <font>
-        <family>FreeSerif</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <italic>true</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Угол и различные точки и отрезки на его сторонах или их соединяющие</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="rb6">
-      <property name="font">
-       <font>
-        <family>FreeSerif</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <italic>true</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Пара углов с пересекающимися сторонами</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="rb7">
-      <property name="font">
-       <font>
-        <family>FreeSerif</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <italic>true</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Треугольник и всевозможные чевианы в нём(но не больше &amp;9ти)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="rb8">
-      <property name="font">
-       <font>
-        <family>FreeSerif</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <italic>true</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Треугольник, чевианы в нём и различные точки на продолжениях его сторон, а так же отрезки их соединяющие </string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="rb9">
-      <property name="font">
-       <font>
-        <family>FreeSerif</family>
-        <pointsize>10</pointsize>
-        <italic>true</italic>
-       </font>
-      </property>
-      <property name="text">
-       <string>Треугольник и прямые его пересекающие</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="rb10">
-      <property name="font">
-       <font>
-        <family>FreeSerif</family>
-        <pointsize>10</pointsize>
-        <italic>true</italic>
-       </font>
-      </property>
-      <property name="text">
-       <string>Треугольник, всевозможные чевианы в нём и прямые пересекающие треугольник </string>
-      </property>
-     </widget>
-    </item>
-   </layout>
   </widget>
   <widget class="QPushButton" name="pb_OK">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>230</x>
      <y>490</y>
-     <width>89</width>
+     <width>271</width>
      <height>25</height>
     </rect>
    </property>
