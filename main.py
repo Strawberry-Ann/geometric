@@ -61,7 +61,7 @@ class SecondForm(QWidget):
             for k1, k2, x1, y2 in [(0, 0, 100, 300), (0, 1, 400, 300), (0, 2, 700, 300),
                                    (3, 0, 100, 600), (4, 0, 400, 600), (4, 1, 700, 600),
                                    (4, 2, 100, 900)]:
-                TRIANGLES.append(get_triangle(name=name, k1=k1, k2=k2, x1=x1, y2=y2))
+                TRIANGLES.append(get_triangle((name[0], name[1], name[2]), k1=k1, k2=k2, x1=x1, y2=y2))
             for t in TRIANGLES:
                 for name_o in i_c:
                     FIGURES.append(t.add_inscribed_circle(name_o))
