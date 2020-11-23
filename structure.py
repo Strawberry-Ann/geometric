@@ -25,6 +25,9 @@ class Example(QWidget):
     def initUI(self):
         self.setGeometry(300, 300, 500, 500)
         self.setWindowTitle('Рисование')
+        p1, p2, p3 = MyPoint(100, 100), MyPoint(150, 100), MyPoint(200, 200)
+        self.s1 = MyTriangle(p1, p2, p3)
+        self.c = self.s1.add_medial()
 
     # Метод срабатывает, когда виджету надо
     # перерисовать свое содержимое,
@@ -39,11 +42,9 @@ class Example(QWidget):
         qp.end()
 
     def draw_flag(self, qp):
-        p1, p2, p3 = MyPoint(20, 50), MyPoint(200, 30), MyPoint(100, 100)
-        self.s1 = MyTriangle(p1, p2, p3)
-        self.b = self.s1.add_bisector(p3)
         self.s1.draw(qp)
-        self.b.draw(qp)
+        self.c.draw(qp)
+
 
 
 class MyPoint(Point2D):
@@ -102,6 +103,18 @@ class MyRay(Ray2D):
         MyLineSegment(self.p1, self.p2).draw(qp)
 
 
+class MyCircle(Circle):
+    def __init__(self, center, radius):
+        Circle.__init__(center, radius, radius)
+
+    def draw(self, qp):
+        pen = QPen(Qt.black, 2, Qt.DotLine)
+        qp.setPen(pen)
+        r = self.hradius
+        qp.drawEllipse(self.center.x - r, self.center.y - r, self.hradius * 2, self.vradius * 2)
+        self.center.draw(qp)
+
+
 class MyTriangle(Triangle):
     def draw(self, qp):
         p1, p2, p3 = self.vertices[0], self.vertices[1], self.vertices[2]
@@ -120,6 +133,20 @@ class MyTriangle(Triangle):
     def add_altitude(self, p):
         hs = self.altitudes[p]
         return MyLineSegment(hs.p1, MyPoint(hs.p2.x, hs.p2.y))
+
+    def add_circumcircle(self):
+        circumcenter = MyPoint(self.circumcenter.x, self.circumcenter.y)
+        circumradius = self.circumradius.evalf()
+        return MyCircle(circumcenter, circumradius)
+
+    def add_incircle(self):
+        incenter = MyPoint(self.incenter.x, self.incenter.y)
+        inradius = self.inradius.evalf()
+        return MyCircle(incenter, inradius)
+
+    def add_medial(self):
+        t = Triangle(*self.vertices).medial.vertices
+        return MyTriangle(MyPoint(t[0].x, t[0].y), MyPoint(t[1].x, t[1].y), MyPoint(t[2].x, t[2].y))
 
 
 if __name__ == '__main__':
