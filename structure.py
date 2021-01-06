@@ -15,34 +15,29 @@ ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 POINTS = {}
 FIGURES = list()
-RELATIONS = [[], []]
 
-class Example(QWidget):
+
+class Drawing(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(300, 300, 500, 500)
+        self.setGeometry(100, 100, 900, 900)
         self.setWindowTitle('Рисование')
-        self.p1, self.p2, self.p3 = MyPoint(100, 100), MyPoint(150, 100), MyPoint(200, 200)
-        self.s1 = MyTriangle(self.p1, self.p2, self.p3)
-        self.c = self.s1.add_eulerline()
 
-    # Метод срабатывает, когда виджету надо
-    # перерисовать свое содержимое,
-    # например, при создании формы
+
     def paintEvent(self, event):
-        # Создаем объект QPainter для рисования
         qp = QPainter()
-        # Начинаем процесс рисования
         qp.begin(self)
         self.draw_flag(qp)
-        # Завершаем рисование
         qp.end()
 
     def draw_flag(self, qp):
-        MyCircle(self.p1, 50).draw(qp)
+        for tr in TRIANGLES:
+            tr.draw(qp)
+        for f in FIGURES:
+            f.draw(qp)
 
 
 class GroupFigures:
@@ -118,6 +113,40 @@ class MyCircle(Circle):
         self.center.draw(qp)
 
 
+# класс угла, который является частью замкнутой фигуры на плоскости
+class MyCorner:
+    def __init__(self, size, p1, p2, line=None):
+        self.p1 = p1
+        self.p2 = p2
+        self.s = size
+        self.init_p3(line)
+
+    def init_p3(self, line):
+        global m
+        # plotting p3 of a given value using the math library
+        if line == None:
+            line = sqrt((self.p2.x - self.p1.x) ** 2 + (self.p2.y - self.p1.y) ** 2)
+        else:
+            line = line
+        if self.p1.x <= self.p2.x and self.p1.y < self.p2.y:
+            m = [self.p1.x + line * sin(self.s * pi / 180 + asin((self.p2.x - self.p1.x) / line)),
+                 line * cos(self.s * pi / 180 + asin((self.p2.x - self.p1.x) / line)) + self.p1.y]
+        elif self.p1.y <= self.p2.y and self.p1.x > self.p2.x:
+            m = [self.p1.x - line * cos(self.s * pi / 180 + asin((self.p2.y - self.p1.y) / line)),
+                 line * sin(self.s * pi / 180 + asin((self.p2.y - self.p1.y) / line)) + self.p1.y]
+        elif self.p1.x >= self.p2.x and self.p1.y > self.p2.y:
+            m = [self.p1.x - line * sin(self.s * pi / 180 + asin((self.p2.x - self.p1.x) / line)),
+                 -line * cos(self.s * pi / 180 + asin((self.p1.x - self.p2.x) / line)) + self.p1.y]
+        elif self.p1.y >= self.p2.y and self.p1.x < self.p2.x:
+            m = [self.p1.x + line * cos(self.s * pi / 180 + asin((self.p1.y - self.p2.y) / line)),
+                 -line * sin(self.s * pi / 180 + asin((self.p1.y - self.p2.y) / line)) + self.p1.y]
+        self.p3 = MyPoint(m[0], m[1])
+
+    def draw(self, qp):
+        MyLineSegment(self.p1, self.p2).draw(qp)
+        MyLineSegment(self.p1, self.p3).draw(qp)
+
+
 class MyTriangle(Triangle):
     def draw(self, qp):
         p1, p2, p3 = self.vertices[0], self.vertices[1], self.vertices[2]
@@ -158,18 +187,50 @@ class MyTriangle(Triangle):
         elif (type(t)== type(Point(1, 2))):
             return MyPoint(t.x, t.y)
 
-    def add_chevian(self, p, x, y):
-        pass
-
 
 class Library:
     pass
 
 
+# метод получения треугольника
+# x1, y1, x2, y2- координаты начала и конца области, в которой нужно построить треугольник
+# k1-критерий соотношения сторон 0-разносторонний, 3-равносторонний, 4-равнобедренный
+# k2-критерий определяющий тип треугольника по углам, 0-остроугольный,1-тупоугольный, 2-прямоугольный
+def get_triangle(k1=0, k2=0, x1=100, y1=100, x2=300, y2=300):
+    '''if names == None:
+        names = sample(ALPHABET, 3)
+    else:
+        names = names.copy()'''
+    corners, sides = get_corners_and_sides(k1, k2)
+    p1 = MyPoint(x1, y2)
+    p3 = MyPoint(x1 + sides[1], y2)
+    c1 = MyCorner(corners[0], p1, p3, line=sides[2])
+    p2 = c1.p3
+    c2 = MyCorner(corners[1], p2, p1, line=sides[0])
+    c3 = MyCorner(corners[2], p3, p2, line=sides[1])
+    s1, s2, s3 = MyLineSegment(p2, p3), MyLineSegment(p3, p1),\
+                 MyLineSegment(p1, p2)
+    return MyTriangle(p1, p2, p3)
+
+
+def get_corners_and_sides(k1, k2):
+    with open("corners.txt", mode='r', encoding="utf8") as t:
+        corners = list(map(lambda x: int(x), t.readlines()[k1 + k2].split()))
+    s2 = 200
+    s1 = 200 * sin(corners[0] * pi / 180) / sin(corners[1] * pi / 180)
+    s3 = 200 * sin(corners[2] * pi / 180) / sin(corners[1] * pi / 180)
+    return corners, [s1, s2, s3]
+
+
+TRIANGLES = list(map(lambda x: get_triangle(k1=x[0], k2=x[1], x1=x[2], y1=x[3], x2=x[4], y2=x[5]),
+                     [(0, 0, 50, 50, 250, 250), (0, 1, 350, 50, 550, 250),
+                      (0, 2, 650, 50, 850, 250), (3, 0, 50, 350, 250, 550),
+                      (4, 0, 350, 350, 550, 550), (4, 1, 650, 350, 850, 550),
+                      (4, 2, 350, 650, 550, 850)]))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Example()
+    ex = Drawing()
     ex.show()
     sys.exit(app.exec())
 
