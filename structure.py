@@ -25,9 +25,9 @@ class Example(QWidget):
     def initUI(self):
         self.setGeometry(300, 300, 500, 500)
         self.setWindowTitle('Рисование')
-        p1, p2, p3 = MyPoint(100, 100), MyPoint(150, 100), MyPoint(200, 200)
-        self.s1 = MyTriangle(p1, p2, p3)
-        self.c = self.s1.add_medial()
+        self.p1, self.p2, self.p3 = MyPoint(100, 100), MyPoint(150, 100), MyPoint(200, 200)
+        self.s1 = MyTriangle(self.p1, self.p2, self.p3)
+        self.c = self.s1.add_eulerline()
 
     # Метод срабатывает, когда виджету надо
     # перерисовать свое содержимое,
@@ -42,13 +42,16 @@ class Example(QWidget):
         qp.end()
 
     def draw_flag(self, qp):
-        self.s1.draw(qp)
-        self.c.draw(qp)
+        MyCircle(self.p1, 50).draw(qp)
 
+
+class GroupFigures:
+    pass
 
 
 class MyPoint(Point2D):
     def draw(self, qp):
+        # нарисуем точку в виде пустого круга с толщиной линии 1
         pen = QPen(Qt.black, 1, Qt.SolidLine)
         qp.setPen(pen)
         color = QColor(255, 255, 255)
@@ -147,6 +150,21 @@ class MyTriangle(Triangle):
     def add_medial(self):
         t = Triangle(*self.vertices).medial.vertices
         return MyTriangle(MyPoint(t[0].x, t[0].y), MyPoint(t[1].x, t[1].y), MyPoint(t[2].x, t[2].y))
+
+    def add_eulerline(self):
+        t = Triangle(*self.vertices).eulerline
+        if (type(t) == type(Line((1, 2), (2, 3)))):
+            return MyStraight(MyPoint(t.p1.x, t.p1.y), MyPoint(t.p2.x, t.p2.y))
+        elif (type(t)== type(Point(1, 2))):
+            return MyPoint(t.x, t.y)
+
+    def add_chevian(self, p, x, y):
+        pass
+
+
+class Library:
+    pass
+
 
 
 if __name__ == '__main__':

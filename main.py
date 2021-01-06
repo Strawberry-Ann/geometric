@@ -85,7 +85,7 @@ class FormatError(Exception):
     pass
 
 
-class Example(QWidget):
+class Drawing(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -112,132 +112,50 @@ class Example(QWidget):
 
 
 # класс точки на плоскости
-class MyPoint:
-    def __init__(self, name, x, y):
-        self.name = name
-        self.x, self.y = x, y
-
+class MyPoint(Point2D):
     def draw(self, qp):
+        # нарисуем точку в виде пустого круга с толщиной линии 1
         pen = QPen(Qt.black, 1, Qt.SolidLine)
         qp.setPen(pen)
         color = QColor(255, 255, 255)
         qp.setBrush(color)
         qp.drawEllipse(int(self.x - 2), int(self.y - 2), 4, 4)
 
-    def __lt__(self, other):
-        if self.x < other.x and self.y < other.y:
-            return True
-        return False
-
-    def __le__(self, other):
-        if self.x <= other.x and self.y <= other.y:
-            return True
-        return False
-
-    def __eq__(self, other):
-        if self.x == other.x and self.y == other.y:
-            return True
-        return False
-
-    def __ne__(self, other):
-        if self.x != other.x and self.y != other.y:
-            return True
-        return False
-
-    def __gt__(self, other):
-        if self.x > other.x and self.y > other.y:
-            return True
-        return False
-
-    def __ge__(self, other):
-        if self.x >= other.x and self.y >= other.y:
-            return True
-        return False
-
-    def __str__(self):
-        return self.name
-
 
 # класс прямой на плоскости
-class MyStraight:
-    def __init__(self, name, p1, p2):
-        self.name = name
-        self.p1 = p1
-        self.p2 = p2
-
+class MyStraight(Line2D):
     def draw(self, qp):
         pen = QPen(Qt.black, 2, Qt.DotLine)
         qp.setPen(pen)
-        dx, dy = abs(self.p1.x - self.p2.x) // 2, abs(self.p1.y - self.p2.y) // 2
+        dx, dy = abs(self.p1.x - self.p2.x) // 2,\
+                 abs(self.p1.y - self.p2.y) // 2
         x1, y1, x2, y2 = self.p1.x, self.p1.y, self.p2.x, self.p2.y
-        if self.p1 >= self.p2:
+        if x1 >= x2 and y1 >= y2:
             qp.drawLine(x1 + dx, y1 + dy, x2 - dx, y2 - dy)
-        elif self.p1 <= self.p2:
+        elif x1 <= x2 and y1 <= y2:
             qp.drawLine(x1 - dx, y1 - dy, x2 + dx, y2 + dy)
         elif x1 <= x2 and y1 >= y2:
             qp.drawLine(x1 - dx, y1 + dy, x2 + dx, y2 - dy)
         elif x1 >= x2 and y1 <= y2:
             qp.drawLine(x1 + dx, y1 - dy, x2 - dx, y2 + dy)
-        MyLineSegment(self.name, self.p1, self.p2).draw(qp)
+        MyLineSegment(self.p1, self.p2).draw(qp)
 
 
 # класс отрезка на плоскости
-class MyLineSegment:
-    def __init__(self, name, p1, p2):
-        self.name = name
-        self.p1 = p1
-        self.p2 = p2
-        self.init_s()
-
+class MyLineSegment(Segment2D):
     def draw(self, qp):
         pen = QPen(Qt.black, 2, Qt.SolidLine)
         qp.setPen(pen)
-        qp.drawLine(int(self.p1.x), int(self.p1.y), int(self.p2.x), int(self.p2.y))
+        qp.drawLine(int(self.p1.x), int(self.p1.y),
+                    int(self.p2.x), int(self.p2.y))
         pen.setStyle(Qt.DotLine)
         qp.setPen(pen)
         self.p1.draw(qp)
         self.p2.draw(qp)
 
-    def init_s(self):
-        self.s = sqrt((self.p1.x - self.p2.x) ** 2 + (self.p1.y - self.p2.y) ** 2)
-
-    def __lt__(self, other):
-        if self.s < other.s:
-            return True
-        return False
-
-    def __le__(self, other):
-        if self.s <= other.s:
-            return True
-        return False
-
-    def __eq__(self, other):
-        if self.s == other.s:
-            return True
-        return False
-
-    def __ne__(self, other):
-        if self.s != other.s:
-            return True
-        return False
-
-    def __gt__(self, other):
-        if self.s > other.s:
-            return True
-        return False
-
-    def __ge__(self, other):
-        if self.s >= other.s:
-            return True
-        return False
-
 
 # класс луча на плоскости
-class MyRay:
-    def __init__(self, name, p1, p2):
-        self.name = name
-        self.p1, self.p2 = p1, p2
-
+class MyRay(Ray2D):
     def draw(self, qp):
         pen = QPen(Qt.black, 2, Qt.DotLine)
         qp.setPen(pen)
@@ -251,7 +169,7 @@ class MyRay:
             qp.drawLine(x1, y1, x2 + dx, y2 - dy)
         elif x1 >= x2 and y1 <= y2:
             qp.drawLine(x1, y1, x2 - dx, y2 + dy)
-        MyLineSegment(self.name, self.p1, self.p2).draw(qp)
+        MyLineSegment(self.p1, self.p2).draw(qp)
 
 
 # класс угла, который является частью замкнутой фигуры на плоскости
@@ -300,81 +218,59 @@ class MyGeometricCorner(MyCorner):
 
 
 # класс окружности
-class MyCircle:
-    def __init__(self, p, r):
-        self.p = p
-        self.r = r
+class MyCircle(Circle):
+    def __init__(self, center, radius):
+        Circle.__init__(center, radius, radius)
 
     def draw(self, qp):
-        pen = QPen(Qt.black, 2, Qt.SolidLine)
+        pen = QPen(Qt.black, 2, Qt.DotLine)
         qp.setPen(pen)
-        qp.drawEllipse(QRect(self.p.x - self.r, self.p.y - self.r, self.p.x + self.r, self.p.y + self.r))
+        r = self.hradius
+        qp.drawEllipse(self.center.x - r, self.center.y - r, self.hradius * 2, self.vradius * 2)
+        self.center.draw(qp)
 
 
 # класс треугольника как геометрической фигуры на плоскости
-class MyTriangle:
-    def __init__(self, p1, p2, p3, s1, s2, s3, c1, c2, c3):
-        self.p1, self.p2, self.p3 = p1, p2, p3
-        self.s1, self.s2, self.s3 = s1, s2, s3
-        self.c1, self.c2, self.c3 = c1, c2, c3
-
+class MyTriangle(Triangle):
     def draw(self, qp):
-        MyLineSegment(str(self.p1) + str(self.p2), self.p1, self.p2).draw(qp)
-        MyLineSegment(str(self.p2) + str(self.p3), self.p2, self.p3).draw(qp)
-        MyLineSegment(str(self.p3) + str(self.p1), self.p3, self.p1).draw(qp)
+        p1, p2, p3 = self.vertices[0], self.vertices[1], self.vertices[2]
+        MyLineSegment(p1, p2).draw(qp)
+        MyLineSegment(p2, p3).draw(qp)
+        MyLineSegment(p3, p1).draw(qp)
 
-    # функция получения стороны, к которой проводится чевиана, вершины, из которой она проводится,
-    # и угла, который соответствует этой вершине
-    def get_opposite_side_and_point_and_corner(self, name):
-        name_p1, name_p2 = name[0], name[1]
-        p = list(filter(lambda x: x.name == name_p1, [self.p1, self.p2, self.p3]))[0]
-        s = list(filter(lambda x: name_p1 not in x.name, [self.s1, self.s2, self.s3]))[0]
-        c = list(filter(lambda x: x.name[1] == name_p1, [self.c1, self.c2, self.c3]))[0]
-        return p, s, c
+    def add_median(self, p):
+        ms = self.medians[p]
+        return MyLineSegment(ms.p1, MyPoint(ms.p2.x, ms.p2.y))
 
-    def add_median(self, name):
-        p, s, c = self.get_opposite_side_and_point_and_corner(name)
-        triangle = Triangle(Point2D(self.p1.x, self.p1.y).evalf(), Point2D(self.p2.x, self.p2.y).evalf(),
-                            Point2D(self.p3.x, self.p3.y).evalf())
-        point = Point(p.x, p.y)
-        line = triangle.medians[point]
-        x1, y1, x2, y2 = line.p1.x, line.p1.y, line.p2.x, line.p2.y
-        return MyMedian(name, MyPoint(name[0], x1, y1), MyPoint(name[1], x1, y1))
+    def add_bisector(self, p):
+        bs = self.bisectors()[p]
+        return MyLineSegment(bs.p1, MyPoint(bs.p2.x, bs.p2.y))
 
-    def add_height(self, name):
-        p, s, c = self.get_opposite_side_and_point_and_corner(name)
-        triangle = Triangle(Point2D(self.p1.x, self.p1.y).evalf(), Point2D(self.p2.x, self.p2.y).evalf(),
-                            Point2D(self.p3.x, self.p3.y).evalf())
-        point = Point(p.x, p.y)
-        line = triangle.altitudes[point]
-        x1, y1, x2, y2 = line.p1.x, line.p1.y, line.p2.x, line.p2.y
-        return MyHeight(name, MyPoint(name[0], x1, y1), MyPoint(name[1], x1, y1))
+    def add_altitude(self, p):
+        hs = self.altitudes[p]
+        return MyLineSegment(hs.p1, MyPoint(hs.p2.x, hs.p2.y))
 
-    def add_bisector(self, name):
-        p, s, c = self.get_opposite_side_and_point_and_corner(name)
-        triangle = Triangle(Point2D(self.p1.x, self.p1.y).evalf(), Point2D(self.p2.x, self.p2.y).evalf(),
-                            Point2D(self.p3.x, self.p3.y).evalf())
-        point = Point(p.x, p.y)
-        line = triangle.bisectors()[point]
-        x1, y1, x2, y2 = line.p1.x, line.p1.y, line.p2.x, line.p2.y
-        return MyBisector(name, MyPoint(name[0], x1, y1), MyPoint(name[0], x2, y2))
+    def add_circumcircle(self):
+        circumcenter = MyPoint(self.circumcenter.x, self.circumcenter.y)
+        circumradius = self.circumradius.evalf()
+        return MyCircle(circumcenter, circumradius)
 
-    def add_inscribed_circle(self, name_o):
-        triangle = Triangle(Point2D(self.p1.x, self.p1.y).evalf(), Point2D(self.p2.x, self.p2.y).evalf(),
-                            Point2D(self.p3.x, self.p3.y).evalf())
-        p = triangle.incenter
-        x, y = p.x, p.y
-        r = triangle.inradius
-        return MyCircle(MyPoint(name_o, x, y), r)
+    def add_incircle(self):
+        incenter = MyPoint(self.incenter.x, self.incenter.y)
+        inradius = self.inradius.evalf()
+        return MyCircle(incenter, inradius)
 
-    # добавить описанную окружность
-    def add_circumscribed_circle(self, name_o):
-        triangle = Triangle(Point2D(self.p1.x, self.p1.y).evalf(), Point2D(self.p2.x, self.p2.y).evalf(),
-                            Point2D(self.p3.x, self.p3.y).evalf())
-        p = triangle.circumcenter
-        x, y = p.x, p.y
-        r = triangle.circumradius
-        return MyCircle(MyPoint(name_o, x, y), r)
+    def add_medial(self):
+        t = Triangle(*self.vertices).medial.vertices
+        return MyTriangle(MyPoint(t[0].x, t[0].y), MyPoint(t[1].x, t[1].y), MyPoint(t[2].x, t[2].y))
+
+    def add_eulerline(self):
+        t = Triangle(*self.vertices).eulerline
+        if (type(t) == type(Line((1, 2), (2, 3)))):
+            return MyStraight(MyPoint(t.p1.x, t.p1.y), MyPoint(t.p2.x, t.p2.y))
+        elif (type(t)== type(Point(1, 2))):
+            return MyPoint(t.x, t.y)
+
 
 
 # класс биссектрисы как отрезка в треугольнике, __init__ и draw() наследуются от класса-родителя LineSegment
