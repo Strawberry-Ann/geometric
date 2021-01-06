@@ -208,6 +208,21 @@ class MyTriangle(Triangle):
         return MyCircle(MyPoint(c.center.coordinates), c.radius)
 
 
+# для того, чтобы транслировать гиф картинку
+class QMovieLabel(QLabel):
+    def __init__(self, fileName, parent=None):
+        super(QMovieLabel, self).__init__(parent)
+        m = QtGui.QMovie(fileName)
+        self.setMovie(m)
+        m.start()
+
+    def setMovie(self, movie):
+        super(QMovieLabel, self).setMovie(movie)
+        s = movie.currentImage().size()
+        self._movieWidth = s.width()
+        self._movieHeight = s.height()
+
+
 class Library:
     pass
 
