@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>input_inf</class>
+ <widget class="QMainWindow" name="input_inf">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -489,16 +489,6 @@
           </attribute>
          </widget>
         </item>
-        <item row="0" column="5">
-         <widget class="QPushButton" name="pushButton_13">
-          <property name="text">
-           <string>Сevian</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">clava</string>
-          </attribute>
-         </widget>
-        </item>
         <item row="0" column="2">
          <widget class="QPushButton" name="pushButton_4">
           <property name="text">
@@ -569,7 +559,7 @@
           </attribute>
          </widget>
         </item>
-        <item row="2" column="4">
+        <item row="0" column="5">
          <widget class="QPushButton" name="pushButton_9">
           <property name="text">
            <string>Unsignedcircle</string>
@@ -580,16 +570,6 @@
          </widget>
         </item>
         <item row="2" column="3">
-         <widget class="QPushButton" name="pushButton_6">
-          <property name="text">
-           <string>Simedian</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">clava</string>
-          </attribute>
-         </widget>
-        </item>
-        <item row="2" column="2">
          <widget class="QPushButton" name="pushButton_3">
           <property name="text">
            <string>Eulerline</string>
@@ -605,10 +585,21 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>30</y>
          <width>731</width>
-         <height>401</height>
+         <height>371</height>
         </rect>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="html">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TRIANGLE ABC:&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_12">
@@ -637,30 +628,30 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="menu2">
     <property name="title">
      <string>Библиотека</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menu_2">
+   <widget class="QMenu" name="menu1">
     <property name="title">
      <string>Построение двумерного изображения</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menu_3">
+   <widget class="QMenu" name="menu3">
     <property name="title">
      <string>Добавить в библиотеку теорему</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menu_4">
+   <widget class="QMenu" name="menu4">
     <property name="title">
      <string>Помощь</string>
     </property>
    </widget>
-   <addaction name="menu_2"/>
-   <addaction name="menu"/>
-   <addaction name="menu_3"/>
-   <addaction name="menu_4"/>
+   <addaction name="menu1"/>
+   <addaction name="menu2"/>
+   <addaction name="menu3"/>
+   <addaction name="menu4"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action">
