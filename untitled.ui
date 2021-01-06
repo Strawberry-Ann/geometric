@@ -469,18 +469,8 @@
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="4">
-         <widget class="QPushButton" name="pushButton_11">
-          <property name="text">
-           <string>Circumcircle</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">clava</string>
-          </attribute>
-         </widget>
-        </item>
         <item row="1" column="2">
-         <widget class="QPushButton" name="pushButton_5">
+         <widget class="QPushButton" name="add_medial">
           <property name="text">
            <string>MedialT</string>
           </property>
@@ -490,7 +480,7 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QPushButton" name="pushButton_4">
+         <widget class="QPushButton" name="add_bisector">
           <property name="text">
            <string>Bisector</string>
           </property>
@@ -499,28 +489,8 @@
           </attribute>
          </widget>
         </item>
-        <item row="1" column="3">
-         <widget class="QPushButton" name="pushButton_8">
-          <property name="text">
-           <string>Eulerline</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">clava</string>
-          </attribute>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <widget class="QPushButton" name="pushButton_7">
-          <property name="text">
-           <string>Straight</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">clava</string>
-          </attribute>
-         </widget>
-        </item>
         <item row="0" column="1">
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="add_median">
           <property name="text">
            <string>Median</string>
           </property>
@@ -529,18 +499,8 @@
           </attribute>
          </widget>
         </item>
-        <item row="1" column="5">
-         <widget class="QPushButton" name="pushButton_14">
-          <property name="text">
-           <string>Nine_point_circle</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">clava</string>
-          </attribute>
-         </widget>
-        </item>
         <item row="0" column="4">
-         <widget class="QPushButton" name="pushButton_10">
+         <widget class="QPushButton" name="add_altitude">
           <property name="text">
            <string>Altitude</string>
           </property>
@@ -550,7 +510,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="add_incircle">
           <property name="text">
            <string>Incircle</string>
           </property>
@@ -559,20 +519,30 @@
           </attribute>
          </widget>
         </item>
-        <item row="0" column="5">
-         <widget class="QPushButton" name="pushButton_9">
+        <item row="0" column="3">
+         <widget class="QPushButton" name="add_eulerline">
           <property name="text">
-           <string>Unsignedcircle</string>
+           <string>Eulerline</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">clava</string>
           </attribute>
          </widget>
         </item>
-        <item row="2" column="3">
-         <widget class="QPushButton" name="pushButton_3">
+        <item row="1" column="3">
+         <widget class="QPushButton" name="add_cicumcircle">
           <property name="text">
-           <string>Eulerline</string>
+           <string>Circumcircle</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">clava</string>
+          </attribute>
+         </widget>
+        </item>
+        <item row="1" column="4">
+         <widget class="QPushButton" name="add_ninepointcircle">
+          <property name="text">
+           <string>Ninepointcircle</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">clava</string>

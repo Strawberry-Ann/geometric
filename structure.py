@@ -3,11 +3,12 @@
 
 import sys
 from PyQt5.QtGui import QPainter, QColor, QPen
-from PyQt5.QtWidgets import QWidget, QApplication
+from PyQt5.QtWidgets import QWidget, QMainWindow, QApplication
 from PyQt5.QtCore import Qt
 from math import sin, cos, asin, pi, sqrt
 from random import choice, sample
 from sympy.geometry import *
+from PyQt5 import uic
 
 
 SCREEN_SIZE = [500, 500]
@@ -15,6 +16,18 @@ ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 POINTS = {}
 FIGURES = list()
+
+
+class Work(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('untitled.ui', self)
+        # Загружаем дизайн
+        self.initUI()
+        self.t = True
+
+    def initUI(self):
+        pass
 
 
 class Drawing(QWidget):
@@ -25,6 +38,9 @@ class Drawing(QWidget):
     def initUI(self):
         self.setGeometry(100, 100, 900, 900)
         self.setWindowTitle('Рисование')
+        for tr in TRIANGLES:
+            print(tr.add_ninepointcircle())
+            FIGURES.append(tr.add_ninepointcircle())
 
 
     def paintEvent(self, event):
@@ -109,7 +125,7 @@ class MyCircle(Circle):
         pen = QPen(Qt.black, 2, Qt.DotLine)
         qp.setPen(pen)
         r = self.hradius
-        qp.drawEllipse(self.center.x - r, self.center.y - r, self.hradius * 2, self.vradius * 2)
+        qp.drawEllipse(self.center.coordinates[0] - r, self.center.coordinates[1] - r, self.hradius * 2, self.vradius * 2)
         self.center.draw(qp)
 
 
@@ -187,6 +203,10 @@ class MyTriangle(Triangle):
         elif (type(t)== type(Point(1, 2))):
             return MyPoint(t.x, t.y)
 
+    def add_ninepointcircle(self):
+        c = self.nine_point_circle
+        return MyCircle(MyPoint(c.center.coordinates), c.radius)
+
 
 class Library:
     pass
@@ -230,7 +250,7 @@ TRIANGLES = list(map(lambda x: get_triangle(k1=x[0], k2=x[1], x1=x[2], y1=x[3], 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Drawing()
+    ex = Work()
     ex.show()
     sys.exit(app.exec())
 
