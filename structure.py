@@ -3,12 +3,13 @@
 
 import sys
 from PyQt5.QtGui import QPainter, QColor, QPen
-from PyQt5.QtWidgets import QWidget, QMainWindow, QApplication
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import *
+from PyQt5 import QtCore, QtGui
 from math import sin, cos, asin, pi, sqrt
 from random import choice, sample
 from sympy.geometry import *
 from PyQt5 import uic
+from PyQt5.QtCore import Qt
 
 
 SCREEN_SIZE = [500, 500]
@@ -16,6 +17,7 @@ ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 POINTS = {}
 FIGURES = list()
+
 
 
 class Work(QMainWindow):
@@ -27,7 +29,20 @@ class Work(QMainWindow):
         self.t = True
 
     def initUI(self):
-        pass
+        for i, j in enumerate([self.add_altitude, self.add_bisector, self.add_circumcircle,
+                               self.add_eulerline, self.add_incircle, self.add_medial,
+                               self.add_median, self.add_ninepointcircle]):
+            self.bgf.setId(j, i)
+            self.bgf.idClicked(i).connect(self.clckd)
+
+    @QtCore.pyqtSlot()
+    def gif_display(self):
+        l = QMovieLabel('loading.gif', self)
+        l.adjustSize()
+        l.show()
+
+    def clckd(self):
+        print('YES')
 
 
 class Drawing(QWidget):
@@ -39,9 +54,8 @@ class Drawing(QWidget):
         self.setGeometry(100, 100, 900, 900)
         self.setWindowTitle('Рисование')
         for tr in TRIANGLES:
-            print(tr.add_ninepointcircle())
             FIGURES.append(tr.add_ninepointcircle())
-
+            FIGURES.append(tr.add_incircle())
 
     def paintEvent(self, event):
         qp = QPainter()
@@ -50,10 +64,11 @@ class Drawing(QWidget):
         qp.end()
 
     def draw_flag(self, qp):
-        for tr in TRIANGLES:
-            tr.draw(qp)
         for f in FIGURES:
             f.draw(qp)
+        for tr in TRIANGLES:
+            tr.draw(qp)
+
 
 
 class GroupFigures:
@@ -164,6 +179,11 @@ class MyCorner:
 
 
 class MyTriangle(Triangle):
+    def __init__(self, *args):
+        super().__init__()
+        BUTTON_FUNCTIONS = [self.add_altitude, self.add_bisector, self.add_circumcircle,
+                               self.add_eulerline, self.add_incircle, self.add_medial,
+                               self.add_median, self.add_ninepointcircle]
     def draw(self, qp):
         p1, p2, p3 = self.vertices[0], self.vertices[1], self.vertices[2]
         MyLineSegment(p1, p2).draw(qp)
