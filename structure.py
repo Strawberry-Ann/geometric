@@ -33,6 +33,7 @@ class Work(QMainWindow):
                                self.add_eulerline, self.add_incircle, self.add_medial,
                                self.add_median, self.add_ninepointcircle]
         self.bgf.buttonClicked.connect(self.clckd)
+        self.start_pb.clicked.connect(self.draw_triangles)
 
     @QtCore.pyqtSlot()
     def gif_display(self):
@@ -53,13 +54,17 @@ class Work(QMainWindow):
         else:
             for tr in TRIANGLES:
                 if tr.BUTTON_FUNCTIONS[self.g.index(btn)] not in FIGURES:
-                    FIGURES.append(tr.BUTTON_FUNCTIONS[self.g.index(btn)])
+                    FIGURES.append(tr.BUTTON_FUNCTIONS[self.g.index(btn)]())
             if f'{btn.text()}' not in self.textTR.toPlainText().split('\n'):
                 self.textTR.append(f'{btn.text()}')
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
             self.close()
+
+    def draw_triangles(self):
+        self.draw_form = Drawing()
+        self.draw_form.show()
 
 
 class Drawing(QWidget):
@@ -70,9 +75,6 @@ class Drawing(QWidget):
     def initUI(self):
         self.setGeometry(100, 100, 900, 900)
         self.setWindowTitle('Рисование')
-        for tr in TRIANGLES:
-            FIGURES.append(tr.add_ninepointcircle())
-            FIGURES.append(tr.add_incircle())
 
     def paintEvent(self, event):
         qp = QPainter()
@@ -157,6 +159,8 @@ class MyCircle(Circle):
         pen = QPen(Qt.black, 2, Qt.DotLine)
         qp.setPen(pen)
         r = self.hradius
+        color = QColor('transparent')
+        qp.setBrush(color)
         qp.drawEllipse(self.center.coordinates[0] - r, self.center.coordinates[1] - r, self.hradius * 2, self.vradius * 2)
         self.center.draw(qp)
 
@@ -203,7 +207,9 @@ class MyTriangle(Triangle):
                                self.add_median, self.add_ninepointcircle]
 
     def draw(self, qp):
-        p1, p2, p3 = self.vertices[0], self.vertices[1], self.vertices[2]
+        p1, p2, p3 = MyPoint(self.vertices[0].x, self.vertices[0].y),\
+                     MyPoint(self.vertices[1].x, self.vertices[1].y),\
+                     MyPoint(self.vertices[2].x, self.vertices[2].y),
         MyLineSegment(p1, p2).draw(qp)
         MyLineSegment(p2, p3).draw(qp)
         MyLineSegment(p3, p1).draw(qp)
@@ -262,7 +268,8 @@ class QMovieLabel(QLabel):
 
 
 class Library:
-    pass
+    def __init__(self):
+        pass
 
 
 # метод получения треугольника
@@ -296,10 +303,10 @@ def get_corners_and_sides(k1, k2):
 
 
 TRIANGLES = list(map(lambda x: get_triangle(k1=x[0], k2=x[1], x1=x[2], y1=x[3], x2=x[4], y2=x[5]),
-                     [(0, 0, 50, 50, 250, 250), (0, 1, 350, 50, 550, 250),
-                      (0, 2, 650, 50, 850, 250), (3, 0, 50, 350, 250, 550),
-                      (4, 0, 350, 350, 550, 550), (4, 1, 650, 350, 850, 550),
-                      (4, 2, 350, 650, 550, 850)]))
+                     [(0, 0, 50, 0, 250, 190), (0, 1, 350, 0, 550, 190),
+                      (0, 2, 650, 0, 850, 190), (3, 0, 50, 300, 250, 490),
+                      (4, 0, 350, 300, 550, 490), (4, 1, 650, 300, 850, 490),
+                      (4, 2, 350, 600, 550, 790)]))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
