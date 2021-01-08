@@ -32,8 +32,10 @@ class Work(QMainWindow):
         self.g = [self.add_altitude, self.add_bisector, self.add_circumcircle,
                                self.add_eulerline, self.add_incircle, self.add_medial,
                                self.add_median, self.add_ninepointcircle]
-        self.bgf.buttonClicked.connect(self.clckd)
+        self.bgf.buttonClicked.connect(self.add_figure)
         self.start_pb.clicked.connect(self.draw_triangles)
+        self.first_pb.clicked.connect(self.clear_figures)
+        self.del_pb.clicked.connect(self.del_figure)
 
     @QtCore.pyqtSlot()
     def gif_display(self):
@@ -41,7 +43,7 @@ class Work(QMainWindow):
         l.adjustSize()
         l.show()
 
-    def clckd(self, btn):
+    def add_figure(self, btn):
         if btn == self.add_altitude or btn == self.add_bisector or btn == self.add_median:
             point, ok_pressed = QInputDialog.getItem(
                 self, "Выберите вершину", "Из какой вершины нужно провести чевиану?",
@@ -57,6 +59,16 @@ class Work(QMainWindow):
                     FIGURES.append(tr.BUTTON_FUNCTIONS[self.g.index(btn)]())
             if f'{btn.text()}' not in self.textTR.toPlainText().split('\n'):
                 self.textTR.append(f'{btn.text()}')
+
+    def del_figure(self):
+        del FIGURES[-7:]
+        self.textTR.undo()
+
+    def clear_figures(self):
+        global FIGURES
+        FIGURES = list()
+        self.textTR.clear()
+        self.textTR.append('TRIANGLE ABC:\n')
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
@@ -223,8 +235,12 @@ class MyTriangle(Triangle):
         return MyLineSegment(bs.p1, MyPoint(bs.p2.x, bs.p2.y))
 
     def add_altitude(self, p):
+        lst = [self.vertices[0], self.vertices[1], self.vertices[2]]
+        del lst[lst.index(Point(p.x, p.y))]
         hs = self.altitudes[p]
-        return MyLineSegment(hs.p1, MyPoint(hs.p2.x, hs.p2.y))
+        if hs.p2 == lst[0]:
+            return MyLineSegment(MyPoint(hs.p1.x, hs.p1.y), MyPoint(lst[0].x, lst[0].y))
+        return MyTriangle(hs.p1, hs.p2, lst[0])
 
     def add_circumcircle(self):
         circumcenter = MyPoint(self.circumcenter.x, self.circumcenter.y)
@@ -250,6 +266,12 @@ class MyTriangle(Triangle):
     def add_ninepointcircle(self):
         c = self.nine_point_circle
         return MyCircle(MyPoint(c.center.coordinates), c.radius)
+
+    def continue_side(self, pp, p):
+        lst = [self.vertices[0], self.vertices[1], self.vertices[2]]
+        del lst[lst.index(Point(p.x, p.y))]
+        return MyLineSegment(pp, MyPoint(lst[0].x, lst[0].y))
+
 
 
 # для того, чтобы транслировать гиф картинку
