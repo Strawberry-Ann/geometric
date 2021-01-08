@@ -24,16 +24,14 @@ class Work(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('untitled.ui', self)
-        # Загружаем дизайн
         self.initUI()
         self.t = True
 
     def initUI(self):
-        for i, j in enumerate([self.add_altitude, self.add_bisector, self.add_circumcircle,
+        self.g = [self.add_altitude, self.add_bisector, self.add_circumcircle,
                                self.add_eulerline, self.add_incircle, self.add_medial,
-                               self.add_median, self.add_ninepointcircle]):
-            self.bgf.setId(j, i)
-            self.bgf.idClicked(i).connect(self.clckd)
+                               self.add_median, self.add_ninepointcircle]
+        self.bgf.buttonClicked.connect(self.clckd)
 
     @QtCore.pyqtSlot()
     def gif_display(self):
@@ -41,8 +39,15 @@ class Work(QMainWindow):
         l.adjustSize()
         l.show()
 
-    def clckd(self):
-        print('YES')
+    def clckd(self, btn):
+        if btn == self.add_altitude or btn == self.add_bisector or btn == self.add_median:
+            point, ok_pressed = QInputDialog.getItem(
+                self, "Выберите вершину", "Из какой вершины нужно провести чевиану?",
+                ("A", "B", "C"), 1, False)
+
+        else:
+            for tr in TRIANGLES:
+                FIGURES.append(tr.BUTTON_FUNCTIONS[self.g.index(btn)])
 
 
 class Drawing(QWidget):
@@ -181,9 +186,10 @@ class MyCorner:
 class MyTriangle(Triangle):
     def __init__(self, *args):
         super().__init__()
-        BUTTON_FUNCTIONS = [self.add_altitude, self.add_bisector, self.add_circumcircle,
+        self.BUTTON_FUNCTIONS = [self.add_altitude, self.add_bisector, self.add_circumcircle,
                                self.add_eulerline, self.add_incircle, self.add_medial,
                                self.add_median, self.add_ninepointcircle]
+
     def draw(self, qp):
         p1, p2, p3 = self.vertices[0], self.vertices[1], self.vertices[2]
         MyLineSegment(p1, p2).draw(qp)
