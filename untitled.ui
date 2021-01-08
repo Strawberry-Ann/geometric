@@ -475,7 +475,7 @@
         <item row="1" column="2">
          <widget class="QPushButton" name="add_medial">
           <property name="text">
-           <string>MedialT</string>
+           <string>Средний треугольник</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">bgf</string>
@@ -485,7 +485,7 @@
         <item row="0" column="2">
          <widget class="QPushButton" name="add_bisector">
           <property name="text">
-           <string>Bisector</string>
+           <string>Биссектриса</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">bgf</string>
@@ -495,7 +495,7 @@
         <item row="0" column="1">
          <widget class="QPushButton" name="add_median">
           <property name="text">
-           <string>Median</string>
+           <string>Медиана</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">bgf</string>
@@ -505,7 +505,7 @@
         <item row="0" column="4">
          <widget class="QPushButton" name="add_altitude">
           <property name="text">
-           <string>Altitude</string>
+           <string>Высота</string>
           </property>
           <property name="checkable">
            <bool>false</bool>
@@ -524,7 +524,7 @@
         <item row="1" column="1">
          <widget class="QPushButton" name="add_incircle">
           <property name="text">
-           <string>Incircle</string>
+           <string>Вписанная окружность</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">bgf</string>
@@ -534,7 +534,7 @@
         <item row="0" column="3">
          <widget class="QPushButton" name="add_eulerline">
           <property name="text">
-           <string>Eulerline</string>
+           <string>Линия Эйлера</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">bgf</string>
@@ -544,7 +544,7 @@
         <item row="1" column="3">
          <widget class="QPushButton" name="add_circumcircle">
           <property name="text">
-           <string>Circumcircle</string>
+           <string>Описанная окружность</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">bgf</string>
@@ -554,7 +554,7 @@
         <item row="1" column="4">
          <widget class="QPushButton" name="add_ninepointcircle">
           <property name="text">
-           <string>Ninepointcircle</string>
+           <string>Окружность 9 точек</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">bgf</string>
@@ -580,7 +580,7 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TRIANGLE ABC:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Треугольник ABC:&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
