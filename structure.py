@@ -15,6 +15,7 @@ from PyQt5.QtCore import Qt
 SCREEN_SIZE = [500, 500]
 ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+NAMES_OF_VERTICES = ['A', 'B', 'C']
 POINTS = {}
 FIGURES = list()
 
@@ -43,11 +44,22 @@ class Work(QMainWindow):
         if btn == self.add_altitude or btn == self.add_bisector or btn == self.add_median:
             point, ok_pressed = QInputDialog.getItem(
                 self, "Выберите вершину", "Из какой вершины нужно провести чевиану?",
-                ("A", "B", "C"), 1, False)
-
+                ("A", "B", "C"), 0, False)
+            for tr in TRIANGLES:
+                if tr.BUTTON_FUNCTIONS[self.g.index(btn)](tr.vertices[NAMES_OF_VERTICES.index(point)]) not in FIGURES:
+                    FIGURES.append(tr.BUTTON_FUNCTIONS[self.g.index(btn)](tr.vertices[NAMES_OF_VERTICES.index(point)]))
+            if f'{btn.text()}({point})' not in self.textTR.toPlainText().split('\n'):
+                self.textTR.append(f'{btn.text()}({point})')
         else:
             for tr in TRIANGLES:
-                FIGURES.append(tr.BUTTON_FUNCTIONS[self.g.index(btn)])
+                if tr.BUTTON_FUNCTIONS[self.g.index(btn)] not in FIGURES:
+                    FIGURES.append(tr.BUTTON_FUNCTIONS[self.g.index(btn)])
+            if f'{btn.text()}' not in self.textTR.toPlainText().split('\n'):
+                self.textTR.append(f'{btn.text()}')
+
+    def keyPressEvent(self, e):
+        if e.key() == Qt.Key_Escape:
+            self.close()
 
 
 class Drawing(QWidget):
