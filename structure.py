@@ -20,7 +20,6 @@ POINTS = {}
 FIGURES = list()
 
 
-
 class Work(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -30,8 +29,8 @@ class Work(QMainWindow):
 
     def initUI(self):
         self.g = [self.add_altitude, self.add_bisector, self.add_circumcircle,
-                               self.add_eulerline, self.add_incircle, self.add_medial,
-                               self.add_median, self.add_ninepointcircle]
+                  self.add_eulerline, self.add_incircle, self.add_medial,
+                  self.add_median, self.add_ninepointcircle]
         self.bgf.buttonClicked.connect(self.add_figure)
         self.start_pb.clicked.connect(self.draw_triangles)
         self.first_pb.clicked.connect(self.clear_figures)
@@ -39,9 +38,9 @@ class Work(QMainWindow):
 
     @QtCore.pyqtSlot()
     def gif_display(self):
-        l = QMovieLabel('loading.gif', self)
-        l.adjustSize()
-        l.show()
+        li = QMovieLabel('loading.gif', self)
+        li.adjustSize()
+        li.show()
 
     def add_figure(self, btn):
         if btn == self.add_altitude or btn == self.add_bisector or btn == self.add_median:
@@ -101,7 +100,6 @@ class Drawing(QWidget):
             tr.draw(qp)
 
 
-
 class GroupFigures:
     pass
 
@@ -132,8 +130,7 @@ class MyStraight(Line2D):
     def draw(self, qp):
         pen = QPen(Qt.black, 2, Qt.DotLine)
         qp.setPen(pen)
-        dx, dy = abs(self.p1.x - self.p2.x) // 2,\
-                 abs(self.p1.y - self.p2.y) // 2
+        dx, dy = abs(self.p1.x - self.p2.x) // 2, abs(self.p1.y - self.p2.y) // 2
         x1, y1, x2, y2 = self.p1.x, self.p1.y, self.p2.x, self.p2.y
         if x1 >= x2 and y1 >= y2:
             qp.drawLine(x1 + dx, y1 + dy, x2 - dx, y2 - dy)
@@ -173,7 +170,8 @@ class MyCircle(Circle):
         r = self.hradius
         color = QColor('transparent')
         qp.setBrush(color)
-        qp.drawEllipse(self.center.coordinates[0] - r, self.center.coordinates[1] - r, self.hradius * 2, self.vradius * 2)
+        qp.drawEllipse(self.center.coordinates[0] - r, self.center.coordinates[1] - r,
+                       self.hradius * 2, self.vradius * 2)
         self.center.draw(qp)
 
 
@@ -188,7 +186,7 @@ class MyCorner:
     def init_p3(self, line):
         global m
         # plotting p3 of a given value using the math library
-        if line == None:
+        if line is None:
             line = sqrt((self.p2.x - self.p1.x) ** 2 + (self.p2.y - self.p1.y) ** 2)
         else:
             line = line
@@ -215,8 +213,8 @@ class MyTriangle(Triangle):
     def __init__(self, *args):
         super().__init__()
         self.BUTTON_FUNCTIONS = [self.add_altitude, self.add_bisector, self.add_circumcircle,
-                               self.add_eulerline, self.add_incircle, self.add_medial,
-                               self.add_median, self.add_ninepointcircle]
+                                 self.add_eulerline, self.add_incircle, self.add_medial,
+                                 self.add_median, self.add_ninepointcircle]
 
     def draw(self, qp):
         p1, p2, p3 = MyPoint(self.vertices[0].x, self.vertices[0].y),\
@@ -260,7 +258,7 @@ class MyTriangle(Triangle):
         t = Triangle(*self.vertices).eulerline
         if (type(t) == type(Line((1, 2), (2, 3)))):
             return MyStraight(MyPoint(t.p1.x, t.p1.y), MyPoint(t.p2.x, t.p2.y))
-        elif (type(t)== type(Point(1, 2))):
+        elif (type(t) == type(Point(1, 2))):
             return MyPoint(t.x, t.y)
 
     def add_ninepointcircle(self):
@@ -271,7 +269,6 @@ class MyTriangle(Triangle):
         lst = [self.vertices[0], self.vertices[1], self.vertices[2]]
         del lst[lst.index(Point(p.x, p.y))]
         return MyLineSegment(pp, MyPoint(lst[0].x, lst[0].y))
-
 
 
 # для того, чтобы транслировать гиф картинку
@@ -310,8 +307,7 @@ def get_triangle(k1=0, k2=0, x1=100, y1=100, x2=300, y2=300):
     p2 = c1.p3
     c2 = MyCorner(corners[1], p2, p1, line=sides[0])
     c3 = MyCorner(corners[2], p3, p2, line=sides[1])
-    s1, s2, s3 = MyLineSegment(p2, p3), MyLineSegment(p3, p1),\
-                 MyLineSegment(p1, p2)
+    s1, s2, s3 = MyLineSegment(p2, p3), MyLineSegment(p3, p1), MyLineSegment(p1, p2)
     return MyTriangle(p1, p2, p3)
 
 
@@ -335,4 +331,3 @@ if __name__ == '__main__':
     ex = Work()
     ex.show()
     sys.exit(app.exec())
-
