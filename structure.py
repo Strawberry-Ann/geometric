@@ -24,7 +24,7 @@ FIGURES = list()
 class Work(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('untitled.ui', self)
+        uic.loadUi('my_graph.ui', self)
         self.initUI()
         self.t = True
 
