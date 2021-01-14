@@ -286,8 +286,20 @@ class QMovieLabel(QLabel):
         self._movieHeight = s.height()
 
 
-class Library:
+class Library(QWidget):
     def __init__(self):
+        pass
+
+    def add_teorem():
+        pass
+
+    def delete_teorem():
+        pass
+
+    def look_teorem():
+        pass
+
+    def open_dialog_window():
         pass
 
 
