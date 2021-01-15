@@ -1,12 +1,11 @@
 # Структура проекта
 
-
+import os
 import sys
-from PyQt5.QtGui import QPainter, QColor, QPen
+from PyQt5.QtGui import QPainter, QColor, QPen, QImage
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui
 from math import sin, cos, asin, pi, sqrt
-from random import choice, sample
 from sympy.geometry import *
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
@@ -28,7 +27,6 @@ class Work(QMainWindow):
         self.t = True
 
     def initUI(self):
-        self.text_help = QTextEdit
         self.g = [self.add_altitude, self.add_bisector, self.add_circumcircle,
                   self.add_eulerline, self.add_incircle, self.add_medial,
                   self.add_median, self.add_ninepointcircle]
@@ -40,12 +38,7 @@ class Work(QMainWindow):
         self.action_help.triggered.connect(self.signal_help)
         self.action_library.triggered.connect(self.signal_library)
         self.construct.hide()
-        self.text_help = QTextEdit(self)
-        self.text_help.move(9, 31)
-        self.text_help.resize(732, 638)
-        self.text_help.setReadOnly(True)
-        self.file = open("help.txt", "r").read()
-        self.text_help.setText(self.file)
+        self.add_help_window()
 
     @QtCore.pyqtSlot()
     def gif_display(self):
@@ -93,11 +86,20 @@ class Work(QMainWindow):
         self.construct.show()
 
     def signal_library(self):
-        print("OK")
+        self.lib = Library()
+        self.lib.show()
 
     def signal_help(self):
         self.construct.hide()
         self.text_help.show()
+
+    def add_help_window(self):
+        self.text_help = QTextEdit(self)
+        self.text_help.move(9, 31)
+        self.text_help.resize(732, 638)
+        self.text_help.setReadOnly(True)
+        self.file = open("help.txt", "r").read()
+        self.text_help.setText(self.file)
 
 
 # класс для отрисовки всех видов треугольника в отдельном окне
@@ -310,24 +312,35 @@ class QMovieLabel(QLabel):
         self._movieHeight = s.height()
 
 
-"""class Library(QWidget):
+class Library(QWidget):
     def __init__(self):
         super().__init__()
+        uic.loadUi('library.ui', self)
+        self.initUI()
 
     def initUI(self):
-        pass
+        self.pb_add.clicked.connect(self.add_teorem)
+        self.pb_del.clicked.connect(self.delete_teorem)
+        self.pb_open.clicked.connect(self.look_teorem)
 
     def add_teorem(self):
-        pass
+        name, ok_pressed = QInputDialog.getText(
+            self, "Введите название теоремы", "Как называется добавляемая теорема?")
+        fname = QFileDialog.getOpenFileName(
+            self, 'Выбрать картинку', '',
+            'Картинка (*.jpg);;Картинка (*.jpg);;Все файлы (*)')[0]
+        f = QImage(fname)
+        f.save(f'data/{name}.jpg')
 
     def delete_teorem(self):
-        pass
+        name, ok_pressed = QInputDialog.getText(
+            self, "Введите название теоремы", "Как называется удаляемая теорема?")
+        print(name)
 
     def look_teorem(self):
         pass
 
-    def open_dialog_window(self):
-        pass"""
+
 
 
 # метод получения треугольника
