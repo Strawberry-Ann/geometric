@@ -71,7 +71,7 @@ class Work(QMainWindow):
         global FIGURES
         FIGURES = list()
         self.textTR.clear()
-        self.textTR.append('TRIANGLE ABC:\n')
+        self.textTR.append('Треугольник ABC:\n')
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
@@ -324,18 +324,34 @@ class Library(QWidget):
         self.pb_open.clicked.connect(self.look_teorem)
 
     def add_teorem(self):
-        name, ok_pressed = QInputDialog.getText(
-            self, "Введите название теоремы", "Как называется добавляемая теорема?")
-        fname = QFileDialog.getOpenFileName(
-            self, 'Выбрать картинку', '',
-            'Картинка (*.jpg);;Картинка (*.jpg);;Все файлы (*)')[0]
-        f = QImage(fname)
-        f.save(f'data/{name}.jpg')
+        try:
+            name, ok_pressed = QInputDialog.getText(self, "Введите название теоремы",
+                                                    "Как называется добавляемая теорема?")
+            if self.cb.findText(name) != -1:
+                raise Exception('Теорема с таким названием уже присутствует!')
+            fname = QFileDialog.getOpenFileName(self,'Выбрать картинку',
+                                                '', 'Картинка (*.jpg);;Картинка'
+                                                    ' (*.jpg);;Все файлы (*)')[0]
+            f = QImage(fname)
+            f.save(f'data/{name}.jpg')
+            self.cb.addItem(name)
+        except Exception as f:
+            self.wind_error = QMessageBox(3, "Ошибка!", f'{f}')
+            self.wind_error.show()
 
     def delete_teorem(self):
-        name, ok_pressed = QInputDialog.getText(
-            self, "Введите название теоремы", "Как называется удаляемая теорема?")
-        print(name)
+        try:
+            name, ok_pressed = QInputDialog.getText(
+                self, "Введите название теоремы", "Как называется удаляемая теорема?")
+            if self.cb.findText(name) == -1:
+                raise Exception('Теоремы с таким названием в библиотеке нет!')
+            path = os.path.join(os.path.abspath(os.path.dirname(__file__)), f'data/{name}.jpg')
+            os.remove(path)
+            self.cb.remoteItem(self.cb.findText(name))
+        except Exception as f:
+            self.wind_error = QMessageBox(3, "Ошибка!", f'{f}')
+            self.wind_error.show()
+
 
     def look_teorem(self):
         pass
