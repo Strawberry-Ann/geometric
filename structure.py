@@ -28,6 +28,7 @@ class Work(QMainWindow):
         self.t = True
 
     def initUI(self):
+        self.text_help = QTextEdit
         self.g = [self.add_altitude, self.add_bisector, self.add_circumcircle,
                   self.add_eulerline, self.add_incircle, self.add_medial,
                   self.add_median, self.add_ninepointcircle]
@@ -35,6 +36,16 @@ class Work(QMainWindow):
         self.start_pb.clicked.connect(self.draw_triangles)
         self.first_pb.clicked.connect(self.clear_figures)
         self.del_pb.clicked.connect(self.del_figure)
+        self.action_construct.triggered.connect(self.signal_construct)
+        self.action_help.triggered.connect(self.signal_help)
+        self.action_library.triggered.connect(self.signal_library)
+        self.construct.hide()
+        self.text_help = QTextEdit(self)
+        self.text_help.move(9, 31)
+        self.text_help.resize(732, 638)
+        self.text_help.setReadOnly(True)
+        self.file = open("help.txt", "r").read()
+        self.text_help.setText(self.file)
 
     @QtCore.pyqtSlot()
     def gif_display(self):
@@ -77,15 +88,27 @@ class Work(QMainWindow):
         self.draw_form = Drawing()
         self.draw_form.show()
 
+    def signal_construct(self):
+        self.text_help.hide()
+        self.construct.show()
 
+    def signal_library(self):
+        print("OK")
+
+    def signal_help(self):
+        self.construct.hide()
+        self.text_help.show()
+
+
+# класс для отрисовки всех видов треугольника в отдельном окне
 class Drawing(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(100, 100, 900, 900)
-        self.setWindowTitle('Рисование')
+        self.setGeometry(100, 100, 900, 900) 
+        self.setWindowTitle('Изображение разных видов треугольника')
 
     def paintEvent(self, event):
         qp = QPainter()
@@ -94,16 +117,13 @@ class Drawing(QWidget):
         qp.end()
 
     def draw_flag(self, qp):
-        for f in FIGURES:
-            f.draw(qp)
         for tr in TRIANGLES:
             tr.draw(qp)
+        for f in FIGURES:
+            f.draw(qp)
 
 
-class GroupFigures:
-    pass
-
-
+# класс для рисования точки, отнаследованный от класса Point2D библиотеки sympy
 class MyPoint(Point2D):
     def draw(self, qp):
         # нарисуем точку в виде пустого круга с толщиной линии 1
@@ -114,6 +134,7 @@ class MyPoint(Point2D):
         qp.drawEllipse(int(self.x - 2), int(self.y - 2), 4, 4)
 
 
+# класс для рисования отрезка, отнаследованный от класса Segment2D библиотеки sympy
 class MyLineSegment(Segment2D):
     def draw(self, qp):
         pen = QPen(Qt.black, 2, Qt.SolidLine)
@@ -126,6 +147,7 @@ class MyLineSegment(Segment2D):
         self.p2.draw(qp)
 
 
+# класс для рисования прямой, отнаследованный от класса Line2D библиотеки sympy
 class MyStraight(Line2D):
     def draw(self, qp):
         pen = QPen(Qt.black, 2, Qt.DotLine)
@@ -143,6 +165,7 @@ class MyStraight(Line2D):
         MyLineSegment(self.p1, self.p2).draw(qp)
 
 
+# класс для рисования луча, отнаследованный от класса Ray2D библиотеки sympy
 class MyRay(Ray2D):
     def draw(self, qp):
         pen = QPen(Qt.black, 2, Qt.DotLine)
@@ -160,6 +183,7 @@ class MyRay(Ray2D):
         MyLineSegment(self.p1, self.p2).draw(qp)
 
 
+# класс для рисования окружности, отнаследованный от класс Circle библиотеки sympy
 class MyCircle(Circle):
     def __init__(self, center, radius):
         Circle.__init__(center, radius, radius)
@@ -184,8 +208,8 @@ class MyCorner:
         self.init_p3(line)
 
     def init_p3(self, line):
+        # получение точки p3
         global m
-        # plotting p3 of a given value using the math library
         if line is None:
             line = sqrt((self.p2.x - self.p1.x) ** 2 + (self.p2.y - self.p1.y) ** 2)
         else:
@@ -256,9 +280,9 @@ class MyTriangle(Triangle):
 
     def add_eulerline(self):
         t = Triangle(*self.vertices).eulerline
-        if (type(t) == type(Line((1, 2), (2, 3)))):
+        if type(t) == type(Line((1, 2), (2, 3))):
             return MyStraight(MyPoint(t.p1.x, t.p1.y), MyPoint(t.p2.x, t.p2.y))
-        elif (type(t) == type(Point(1, 2))):
+        elif type(t) == type(Point(1, 2)):
             return MyPoint(t.x, t.y)
 
     def add_ninepointcircle(self):
@@ -286,21 +310,24 @@ class QMovieLabel(QLabel):
         self._movieHeight = s.height()
 
 
-class Library(QWidget):
+"""class Library(QWidget):
     def __init__(self):
+        super().__init__()
+
+    def initUI(self):
         pass
 
-    def add_teorem():
+    def add_teorem(self):
         pass
 
-    def delete_teorem():
+    def delete_teorem(self):
         pass
 
-    def look_teorem():
+    def look_teorem(self):
         pass
 
-    def open_dialog_window():
-        pass
+    def open_dialog_window(self):
+        pass"""
 
 
 # метод получения треугольника
@@ -308,18 +335,13 @@ class Library(QWidget):
 # k1-критерий соотношения сторон 0-разносторонний, 3-равносторонний, 4-равнобедренный
 # k2-критерий определяющий тип треугольника по углам, 0-остроугольный,1-тупоугольный, 2-прямоугольный
 def get_triangle(k1=0, k2=0, x1=100, y1=100, x2=300, y2=300):
-    '''if names == None:
-        names = sample(ALPHABET, 3)
-    else:
-        names = names.copy()'''
+    # получение углов и сторон треугольника с помощью функции get_corners_and_sides
     corners, sides = get_corners_and_sides(k1, k2)
     p1 = MyPoint(x1, y2)
     p3 = MyPoint(x1 + sides[1], y2)
+    # используем класс MyCorner для того, чтобы получить все вершины треугольника
     c1 = MyCorner(corners[0], p1, p3, line=sides[2])
     p2 = c1.p3
-    c2 = MyCorner(corners[1], p2, p1, line=sides[0])
-    c3 = MyCorner(corners[2], p3, p2, line=sides[1])
-    s1, s2, s3 = MyLineSegment(p2, p3), MyLineSegment(p3, p1), MyLineSegment(p1, p2)
     return MyTriangle(p1, p2, p3)
 
 
@@ -332,6 +354,7 @@ def get_corners_and_sides(k1, k2):
     return corners, [s1, s2, s3]
 
 
+# создание треугольников с помощью функции get_triangle
 TRIANGLES = list(map(lambda x: get_triangle(k1=x[0], k2=x[1], x1=x[2], y1=x[3], x2=x[4], y2=x[5]),
                      [(0, 0, 50, 0, 250, 190), (0, 1, 350, 0, 550, 190),
                       (0, 2, 650, 0, 850, 190), (3, 0, 50, 300, 250, 490),

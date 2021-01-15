@@ -10,6 +10,24 @@
     <height>700</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>750</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>750</width>
+    <height>700</height>
+   </size>
+  </property>
   <property name="palette">
    <palette>
     <active>
@@ -453,21 +471,21 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>geometric</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QWidget" name="widget" native="true">
+     <widget class="QWidget" name="construct" native="true">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <widget class="QWidget" name="gridLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>10</x>
          <y>400</y>
-         <width>731</width>
+         <width>721</width>
          <height>151</height>
         </rect>
        </property>
@@ -566,10 +584,10 @@
       <widget class="QTextEdit" name="textTR">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>30</y>
-         <width>731</width>
-         <height>371</height>
+         <x>9</x>
+         <y>9</y>
+         <width>721</width>
+         <height>401</height>
         </rect>
        </property>
        <property name="readOnly">
@@ -587,9 +605,9 @@ p, li { white-space: pre-wrap; }
       <widget class="QPushButton" name="start_pb">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>10</x>
          <y>550</y>
-         <width>731</width>
+         <width>721</width>
          <height>25</height>
         </rect>
        </property>
@@ -600,9 +618,9 @@ p, li { white-space: pre-wrap; }
       <widget class="QPushButton" name="first_pb">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>10</x>
          <y>610</y>
-         <width>731</width>
+         <width>721</width>
          <height>25</height>
         </rect>
        </property>
@@ -613,9 +631,9 @@ p, li { white-space: pre-wrap; }
       <widget class="QPushButton" name="del_pb">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>10</x>
          <y>580</y>
-         <width>731</width>
+         <width>721</width>
          <height>25</height>
         </rect>
        </property>
@@ -636,30 +654,15 @@ p, li { white-space: pre-wrap; }
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu2">
-    <property name="title">
-     <string>Библиотека</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menu1">
     <property name="title">
-     <string>Построение двумерного изображения</string>
+     <string>Меню</string>
     </property>
-   </widget>
-   <widget class="QMenu" name="menu3">
-    <property name="title">
-     <string>Добавить в библиотеку теорему</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menu4">
-    <property name="title">
-     <string>Помощь</string>
-    </property>
+    <addaction name="action_construct"/>
+    <addaction name="action_library"/>
+    <addaction name="action_help"/>
    </widget>
    <addaction name="menu1"/>
-   <addaction name="menu2"/>
-   <addaction name="menu3"/>
-   <addaction name="menu4"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action">
@@ -670,6 +673,26 @@ p, li { white-space: pre-wrap; }
   <action name="action_2">
    <property name="text">
     <string/>
+   </property>
+  </action>
+  <action name="action_construct">
+   <property name="text">
+    <string>Построение двумерного изображения</string>
+   </property>
+  </action>
+  <action name="action_library">
+   <property name="text">
+    <string>Библиотека</string>
+   </property>
+  </action>
+  <action name="action_addteorem">
+   <property name="text">
+    <string>Добавить теорему в библиотеку</string>
+   </property>
+  </action>
+  <action name="action_help">
+   <property name="text">
+    <string>Помощь</string>
    </property>
   </action>
  </widget>
