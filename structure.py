@@ -336,11 +336,10 @@ class Library(QWidget):
             self.wind_error = QMessageBox(3, "Ошибка!", f'{f}')
             self.wind_error.show()
 
-    def look_teorem(self, ):
+    def look_teorem(self):
         name = self.cb.currentText()
         self.pic = QPixmap(f'data/{name}.jpg')
-        self.pic = self.pic.scaledToHeight(601)
-        self.pic = self.pic.scaledToWidth(731)
+        self.pic = self.pic.scaled(601, 731, 1)
         self.label.setPixmap(self.pic)
 
     def add_items(self):
