@@ -331,7 +331,7 @@ class Library(QWidget):
                 raise Exception('Теоремы с таким названием в библиотеке нет!')
             path = os.path.join(os.path.abspath(os.path.dirname(__file__)), f'data/{name}.jpg')
             os.remove(path)
-            self.cb.remoteItem(self.cb.findText(name))
+            self.cb.removeItem(self.cb.findText(name))
         except Exception as f:
             self.wind_error = QMessageBox(3, "Ошибка!", f'{f}')
             self.wind_error.show()
