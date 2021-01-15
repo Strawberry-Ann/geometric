@@ -2,7 +2,7 @@
 
 import os
 import sys
-from PyQt5.QtGui import QPainter, QColor, QPen, QImage
+from PyQt5.QtGui import QPainter, QColor, QPen, QImage, QPixmap
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui
 from math import sin, cos, asin, pi, sqrt
@@ -39,12 +39,6 @@ class Work(QMainWindow):
         self.action_library.triggered.connect(self.signal_library)
         self.construct.hide()
         self.add_help_window()
-
-    @QtCore.pyqtSlot()
-    def gif_display(self):
-        li = QMovieLabel('loading.gif', self)
-        li.adjustSize()
-        li.show()
 
     def add_figure(self, btn):
         if btn == self.add_altitude or btn == self.add_bisector or btn == self.add_median:
@@ -297,21 +291,6 @@ class MyTriangle(Triangle):
         return MyLineSegment(pp, MyPoint(lst[0].x, lst[0].y))
 
 
-# для того, чтобы транслировать гиф картинку
-class QMovieLabel(QLabel):
-    def __init__(self, fileName, parent=None):
-        super(QMovieLabel, self).__init__(parent)
-        m = QtGui.QMovie(fileName)
-        self.setMovie(m)
-        m.start()
-
-    def setMovie(self, movie):
-        super(QMovieLabel, self).setMovie(movie)
-        s = movie.currentImage().size()
-        self._movieWidth = s.width()
-        self._movieHeight = s.height()
-
-
 class Library(QWidget):
     def __init__(self):
         super().__init__()
@@ -319,9 +298,12 @@ class Library(QWidget):
         self.initUI()
 
     def initUI(self):
+        self.setWindowTitle('Библиотека теорем')
+        self.add_items()
+        self.pic = self.cb.currentText()
         self.pb_add.clicked.connect(self.add_teorem)
         self.pb_del.clicked.connect(self.delete_teorem)
-        self.pb_open.clicked.connect(self.look_teorem)
+        self.cb.activated.connect(self.look_teorem)
 
     def add_teorem(self):
         try:
@@ -332,6 +314,8 @@ class Library(QWidget):
             fname = QFileDialog.getOpenFileName(self,'Выбрать картинку',
                                                 '', 'Картинка (*.jpg);;Картинка'
                                                     ' (*.jpg);;Все файлы (*)')[0]
+            if '.jpg' not in fname:
+                raise Exception('Неверный формат файла, файл должен соответствовать формату ".jpg"')
             f = QImage(fname)
             f.save(f'data/{name}.jpg')
             self.cb.addItem(name)
@@ -352,12 +336,23 @@ class Library(QWidget):
             self.wind_error = QMessageBox(3, "Ошибка!", f'{f}')
             self.wind_error.show()
 
+    def look_teorem(self, ):
+        name = self.cb.currentText()
+        self.pic = QPixmap(f'data/{name}.jpg')
+        self.pic = self.pic.scaledToHeight(601)
+        self.pic = self.pic.scaledToWidth(731)
+        self.label.setPixmap(self.pic)
 
-    def look_teorem(self):
-        pass
+    def add_items(self):
+        directory = 'data'
+        files = os.listdir(directory)
+        for file in files:
+            name = file.split('.')[0]
+            self.cb.addItem(name)
 
-
-
+    def keyPressEvent(self, e):
+        if e.key() == Qt.Key_Escape:
+            self.close()
 
 # метод получения треугольника
 # x1, y1, x2, y2- координаты начала и конца области, в которой нужно построить треугольник
